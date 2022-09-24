@@ -3,6 +3,7 @@
 const
     gulp = require('gulp'),
     gutil = require('gulp-util'),
+    merge = require('merge-stream'),
     path = require('path'),
     run = require('gulp-run'),
     browserify = require('browserify'),
@@ -18,58 +19,64 @@ const
 
 const config = {
     srcBase: 'src',
-    entryPoint: 'src/main.ts',
+
+    modules: [
+        { src: "src/background.ts", bundle: "background.js" },
+        { src: "src/popup/ui.ts", bundle: "popup/ui.js" }
+    ],
 
     jsonGlob: 'src/**/*.json',
     imageGlob: 'src/icons/**/*',
     htmlGlob: 'src/popup/**/*.html',
 
-    bundleName: 'bundle.js',
     buildDir: './build'
 }
 
 function js(watch) {
-    let bundler = browserify({
-        basedir: '.',
-        debug: true,
-        entries: config.entryPoint,
-        cache: {},
-        packageCache: {}
-    });
-
-    bundler.plugin(tsify);
-
-    if (watch) {
-        bundler.plugin(watchify, {
-            delay: 100,
-            ignoreWatch: ['**/note_mdoules/**'],
-            poll: 250
+    return merge(config.modules.map((module => {
+        let bundler = browserify({
+            basedir: '.',
+            debug: true,
+            entries: module.src,
+            cache: {},
+            packageCache: {}
         });
-
-        watches.push(bundler);
-    }
-
-    bundler.on('update', function(){
-        bundle(bundler);
-    });
-
-    bundler.on('log', function(msg) {
-        gutil.log(msg);
-    });
-
-    return bundle(bundler);
+    
+        bundler.plugin(tsify);
+    
+        if (watch) {
+            bundler.plugin(watchify, {
+                delay: 100,
+                ignoreWatch: ['**/note_mdoules/**'],
+                poll: 250
+            });
+    
+            watches.push(bundler);
+        }
+    
+        bundler.on('update', function(){
+            bundle(bundler, module);
+        });
+    
+        bundler.on('log', function(msg) {
+            gutil.log(msg);
+        });
+    
+        return bundle(bundler, module);
+    })));
 }
 
-function bundle(bundler) {
+function bundle(bundler, module) {
     return bundler
         .bundle()
-        .pipe(source(config.bundleName))
+        .pipe(source(module.bundle))
         .pipe(buffer())
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(uglify())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(config.buildDir));
 }
+
 
 let watches = [];
 

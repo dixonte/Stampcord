@@ -8,7 +8,7 @@
         "description": "Description of the add-on."
     },
 
-    "menuItemSelectionLogger": {
+    "miSelectionParse": {
         "message": "Parse '%s' as date",
         "description": "Title of context menu item that logs the selected text when clicked."
     }

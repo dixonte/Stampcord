@@ -18,10 +18,11 @@
     "browser_action": {
       "default_icon": "icons/clock-svgrepo-com.svg",
       "default_title": "__MSG_extensionName__",
-      "default_popup": "popup/ui.html"
+      "default_popup": "popup/ui.html",
+      "browser_style": true
     },
 
     "background": {
-        "scripts": ["bundle.js"]
+        "scripts": ["background.js"]
     }
 }
