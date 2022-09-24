@@ -1,0 +1,15 @@
+{
+    "extensionName": {
+        "message": "Stampcord",
+        "description": "Name of the extension."
+    },
+    "extensionDescription": {
+        "message": "Converts human text into Discord timestamps.",
+        "description": "Description of the add-on."
+    },
+
+    "menuItemSelectionLogger": {
+        "message": "Parse '%s' as date",
+        "description": "Title of context menu item that logs the selected text when clicked."
+    }
+}

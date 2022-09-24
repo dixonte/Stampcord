@@ -1,0 +1,31 @@
+{
+  "name": "stampcord",
+  "version": "1.0.0",
+  "description": "WebExtension that converts human text into Discord timestamps.",
+  "main": "index.js",
+  "scripts": {
+    "start:firefox": "web-ext run --source-dir ./build/",
+    "lint": "web-ext lint --source-dir ./build/"
+  },
+  "author": "dixonte",
+  "license": "MIT",
+  "devDependencies": {
+    "browserify": "^17.0.0",
+    "gulp": "^4.0.2",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-json-minify": "^1.2.2",
+    "gulp-run": "^1.7.1",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-uglify": "^3.0.2",
+    "gulp-util": "^3.0.8",
+    "tsify": "^5.0.4",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0",
+    "watchify": "^4.0.0",
+    "web-ext": "^7.2.0",
+    "webextension-polyfill-ts": "^0.26.0"
+  },
+  "dependencies": {
+    "chrono-node": "^2.4.1"
+  }
+}

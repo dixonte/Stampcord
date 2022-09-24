@@ -1,0 +1,27 @@
+{
+    "manifest_version": 2,
+    "name": "__MSG_extensionName__",
+    "description": "__MSG_extensionDescription__",
+    "default_locale": "en",
+    "version": "1.0",
+
+    "homepage_url": "https://github.com/dixonte",
+    "icons": {
+        "16": "icons/clock-svgrepo-com.svg"
+    },
+
+    "permissions": [
+        "activeTab",
+        "contextMenus"
+    ],
+
+    "browser_action": {
+      "default_icon": "icons/clock-svgrepo-com.svg",
+      "default_title": "__MSG_extensionName__",
+      "default_popup": "popup/ui.html"
+    },
+
+    "background": {
+        "scripts": ["bundle.js"]
+    }
+}
