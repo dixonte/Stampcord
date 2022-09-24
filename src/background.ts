@@ -1,7 +1,7 @@
 import { browser } from "webextension-polyfill-ts";
 import { BackgroundMessages } from './messages';
 
-import * as chrono from 'chrono-node';
+//import * as chrono from 'chrono-node';
 
 class Background {
     selectedText?: string | null;

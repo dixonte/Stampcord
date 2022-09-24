@@ -3,6 +3,7 @@
 const
     gulp = require('gulp'),
     gutil = require('gulp-util'),
+    clean = require('gulp-clean'),
     merge = require('merge-stream'),
     path = require('path'),
     run = require('gulp-run'),
@@ -131,6 +132,10 @@ gulp.task('run', function (cb) {
 
 
 gulp.task('lint', function () { return run('npm run lint').exec() });
-
+gulp.task('clean', function () {
+    return gulp
+        .src(config.buildDir, {read:false})
+        .pipe(clean());
+});
 gulp.task('watch', gulp.parallel('js:watch', 'json:watch', 'img:watch', 'html:watch', 'run'));
 gulp.task('default', gulp.parallel('js', 'json', 'img', 'html'));

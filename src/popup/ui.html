@@ -2,9 +2,10 @@
 <html>
     <head>
         <meta charset="utf-8" />
+        <title>Stampcord UI</title>
         <style type="text/css">
             body {
-                padding: 0.25em;
+                padding: 0.5em;
             }
         </style>
         <script src="ui.js" type="text/javascript"></script>
@@ -13,5 +14,30 @@
     <body>
         <label for="plaintext">Text:</label>
         <input id="plaintext" type="text" />
+
+        <label for="datetime">Date & Time:</label>
+        <input id="datetime" type="datetime-local" />
+
+        <label for="timezone">Time zone:</label>
+        <select id="timezone">
+            <option>UTC</option>
+        </select>
+
+        <label for="unix">Unix Timestamp:</label>
+        <input id="unix" type="text" />
+
+        <label for="discordFormat">Discord Format:</label>
+        <select id="discordFormat">
+            <option value="t">Short Time</option>
+            <option value="T">Long Time</option>
+            <option value="d">Short Date</option>
+            <option value="D">Long Date</option>
+            <option value="f">Short Date & Time</option>
+            <option value="F">Long Date & Time</option>
+            <option value="R">Relative</option>
+        </select>
+
+        <label>Discord Timestamp:</label>
+        <input id="discord" type="text" readonly />
     </body>
 </html>
