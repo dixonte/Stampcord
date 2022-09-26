@@ -10,6 +10,7 @@
   "author": "dixonte",
   "license": "MIT",
   "devDependencies": {
+    "@types/luxon": "^3.0.1",
     "browserify": "^17.0.0",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
@@ -19,6 +20,7 @@
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
     "gulp-util": "^3.0.8",
+    "luxon": "^3.0.4",
     "merge-stream": "^2.0.0",
     "tsify": "^5.0.4",
     "vinyl-buffer": "^1.0.1",

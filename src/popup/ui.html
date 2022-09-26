@@ -7,21 +7,31 @@
             body {
                 padding: 0.5em;
             }
+
+            input {
+                width: 20em;
+            }
+
+            label {
+                margin-top: 0.75em;
+            }
+
+            label:first-child {
+                margin-top: 0;
+            }
         </style>
         <script src="ui.js" type="text/javascript"></script>
     </head>
 
     <body>
-        <label for="plaintext">Text:</label>
+        <label for="plaintext">Casual Text:</label>
         <input id="plaintext" type="text" />
 
         <label for="datetime">Date & Time:</label>
         <input id="datetime" type="datetime-local" />
 
         <label for="timezone">Time zone:</label>
-        <select id="timezone">
-            <option>UTC</option>
-        </select>
+        <select id="timezone"></select>
 
         <label for="unix">Unix Timestamp:</label>
         <input id="unix" type="text" />
@@ -39,5 +49,8 @@
 
         <label>Discord Timestamp:</label>
         <input id="discord" type="text" readonly />
+
+        <label>Discord Preview:</label>
+        <input id="preview" type="text" readonly />
     </body>
 </html>
