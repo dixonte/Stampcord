@@ -2,7 +2,8 @@ import { browser } from "webextension-polyfill-ts";
 import { BackgroundMessages } from '../messages';
 import { Messenger } from '../messenger';
 
-import * as chrono from 'chrono-node';
+//import * as chrono from 'chrono-node';
+import { customParser, timeZones } from '../customParser';
 import { DateTime } from 'luxon';
 
 enum ControlGroups {
@@ -83,10 +84,17 @@ class UI {
     dateValue: DateTime;
 
     async init() {
-        for (let x = -690; x <= 690; x += 30) {
+        // for (let x = -690; x <= 690; x += 30) {
+        //     let newOption = document.createElement('option');
+        //     newOption.value = x.toString();
+        //     newOption.text = this.getUTCRelativeString(x);
+        //     this.cbxTimeZone.appendChild(newOption);
+        // }
+        console.log('zones!', timeZones);
+        for (let zone of timeZones) {
             let newOption = document.createElement('option');
-            newOption.value = x.toString();
-            newOption.text = this.getUTCRelativeString(x);
+            newOption.value = zone.offset.toString();
+            newOption.text = `${this.getUTCRelativeString(zone.offset)} - ${zone.name}`;
             this.cbxTimeZone.appendChild(newOption);
         }
         this.cbxTimeZone.value = "0";
@@ -113,7 +121,6 @@ class UI {
         } else if (Math.abs(offset) % 60 === 0) {
             return `UTC${offset >= 0 ? '+' : '-'}${Math.abs(Math.floor(offset / 60))}`;
         } else {
-            console.log('offset', offset, 'hours', Math.floor(Math.abs(offset) / 60), 'minutes', Math.abs(offset % 60));
             return `UTC${offset >= 0 ? '+' : '-'}${Math.floor(Math.abs(offset) / 60)}:${(Math.abs(offset % 60)).toString().padStart(2, '0')}`
         }
     }
@@ -136,9 +143,10 @@ class UI {
     tbPlaintext_input(ev: Event) {
         //console.log('tbPlaintext_input', this.tbPlaintext.value);
 
-        const c = chrono.parse(this.tbPlaintext.value)[0];
+        const c = customParser.parse(this.tbPlaintext.value)[0];
         if (c) {
             const offset = c.start.get('timezoneOffset');
+            console.log(c.start, offset);
             let dt = DateTime.fromJSDate(c.date());
             if (offset != null) {
                 const zone = this.getUTCRelativeString(offset);
