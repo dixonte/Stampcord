@@ -131,6 +131,7 @@ gulp.task('run', function (cb) {
 });
 
 
+gulp.task('build', function () { return run('npm run build').exec() });
 gulp.task('lint', function () { return run('npm run lint').exec() });
 gulp.task('clean', function () {
     return gulp
