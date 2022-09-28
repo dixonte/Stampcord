@@ -12,7 +12,8 @@
 
     "permissions": [
         "activeTab",
-        "contextMenus"
+        "contextMenus",
+        "storage"
     ],
 
     "browser_action": {
@@ -24,5 +25,11 @@
 
     "background": {
         "scripts": ["background.js"]
-    }
+    },
+
+    "browser_specific_settings": {
+        "gecko": {
+          "id": "stampcord@dixonte.github.io"
+        }
+    }      
 }

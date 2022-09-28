@@ -104,9 +104,9 @@ class UI {
         this.divToast.addEventListener('animationend', this.divToast_animationend.bind(this));
 
         const response = await Messenger.sendMessageToBackground(BackgroundMessages.GET_PLAINTEXT);
+        this.tbPlaintext.value = response || DateTime.now().toISO();
         
-        this.tbPlaintext.value = response || "";
-        this.cbxDiscordFormat.value = "f";
+        this.cbxDiscordFormat.value = (await browser.storage.sync.get('discordFormat')).discordFormat || "f";
 
         if (!!this.tbPlaintext.value) {
             this.tbPlaintext_input(null);
@@ -126,6 +126,10 @@ class UI {
     update(except: HTMLInputElement) {
         // console.log('Update:', this.dateValue);
         // console.log('TZ', this.dateValue.zoneName, this.dateValue.zone);
+
+        if (!this.dateValue) {
+            return;
+        }
 
         const groupException = this.controlIdToGroup.get(except.id);
         const toUpdate = Object.keys(ControlGroups).filter(k => !isNaN(Number(ControlGroups[k])) && ControlGroups[k] !== groupException).map<ControlGroups>(s => ControlGroups[s]);
@@ -180,7 +184,9 @@ class UI {
         this.update(this.tbUnix);
     }
 
-    cbxDiscordFormat_change(ev: Event) {
+    async cbxDiscordFormat_change(ev: Event) {
+        await browser.storage.sync.set({ discordFormat: this.cbxDiscordFormat.value });
+
         this.update(this.cbxDiscordFormat);
     }
 
