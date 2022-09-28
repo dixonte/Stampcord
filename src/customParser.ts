@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 import * as chrono from 'chrono-node';
 
 export const customParser = chrono.casual.clone();
@@ -12,7 +14,7 @@ declare namespace Intl {
 // If we end up with multiple results, copy the first certain timezone to the first result
 customParser.refiners.push({
     refine: (context, results) => {
-        console.log('results', results);
+        //console.log('results', results);
 
         const resultsWithTimezone = results.filter(r => r.start.isCertain('timezoneOffset'));
         if (resultsWithTimezone[0] && results[0] && !results[0].start.isCertain('timezoneOffset')) {
@@ -32,7 +34,8 @@ const getOffset = (timeZone = 'UTC', date = new Date()) => {
 export const timeZones = Intl.supportedValuesOf('timeZone')
     // Gather offset data, replace underscores
     .map(zs => {
-        console.log('zone', zs);
+        //console.log('zone', zs, DateTime.local().setZone(zs).toFormat('ZZZZ'));
+        
         return {
             name: zs.replaceAll('_', ' '),
             offset: getOffset(zs)

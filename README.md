@@ -1,2 +1,2 @@
 # Stampcord
- WebExtension that converts human text into Discord timestamps.
+WebExtension that converts human dates into Discord timestamps.

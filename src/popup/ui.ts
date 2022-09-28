@@ -22,6 +22,7 @@ class UI {
     readonly cbxDiscordFormat = <HTMLInputElement>document.getElementById("discordFormat");
     readonly tbDiscord = <HTMLInputElement>document.getElementById("discord");
     readonly tbPreview = <HTMLInputElement>document.getElementById("preview");
+    readonly divToast = <HTMLDivElement>document.getElementById("toast");
 
     readonly controlIdToGroup = new Map<string, ControlGroups>([
         [this.tbPlaintext.id, ControlGroups.Plaintext]
@@ -84,13 +85,7 @@ class UI {
     dateValue: DateTime;
 
     async init() {
-        // for (let x = -690; x <= 690; x += 30) {
-        //     let newOption = document.createElement('option');
-        //     newOption.value = x.toString();
-        //     newOption.text = this.getUTCRelativeString(x);
-        //     this.cbxTimeZone.appendChild(newOption);
-        // }
-        console.log('zones!', timeZones);
+        //console.log('zones!', timeZones);
         for (let zone of timeZones) {
             let newOption = document.createElement('option');
             newOption.value = zone.offset.toString();
@@ -104,6 +99,9 @@ class UI {
         this.cbxTimeZone.addEventListener('input', this.cbxTimeZone_input.bind(this));
         this.tbUnix.addEventListener('input', this.tbUnix_input.bind(this));
         this.cbxDiscordFormat.addEventListener('change', this.cbxDiscordFormat_change.bind(this));
+
+        this.tbDiscord.addEventListener('click', this.tbDiscord_click.bind(this));
+        this.divToast.addEventListener('animationend', this.divToast_animationend.bind(this));
 
         const response = await Messenger.sendMessageToBackground(BackgroundMessages.GET_PLAINTEXT);
         
@@ -146,11 +144,11 @@ class UI {
         const c = customParser.parse(this.tbPlaintext.value)[0];
         if (c) {
             const offset = c.start.get('timezoneOffset');
-            console.log(c.start, offset);
+            //console.log(c.start, offset);
             let dt = DateTime.fromJSDate(c.date());
             if (offset != null) {
                 const zone = this.getUTCRelativeString(offset);
-                console.log('zone:', zone);
+                //console.log('zone:', zone);
                 dt = dt.setZone(zone);
             }
             this.dateValue = dt;
@@ -184,6 +182,19 @@ class UI {
 
     cbxDiscordFormat_change(ev: Event) {
         this.update(this.cbxDiscordFormat);
+    }
+
+    async tbDiscord_click(ev: Event) {
+        this.tbDiscord.select();
+        this.tbDiscord.setSelectionRange(0, this.tbDiscord.value.length); // for mobile
+        
+        await navigator.clipboard.writeText(this.tbDiscord.value);
+
+        this.divToast.style.animation = 'toast 1.5s';
+    }
+
+    divToast_animationend(ev: Event) {
+        this.divToast.style.removeProperty('animation');
     }
 }
 

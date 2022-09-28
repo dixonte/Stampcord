@@ -19,6 +19,28 @@
             label:first-child {
                 margin-top: 0;
             }
+
+            #toast {
+                background-color: lemonchiffon;
+                border-radius: 0.5em 0.5em 0 0;
+                
+                padding: 0.25em 1em;
+
+                position: fixed;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+
+                pointer-events: none;
+                opacity: 0;
+            }
+
+            @keyframes toast {
+                0% { opacity: 0; }
+                1% { opacity: 1 }
+                80% { opacity: 1 }
+                100% { opacity: 0 }
+            }
         </style>
         <script src="ui.js" type="text/javascript"></script>
     </head>
@@ -47,10 +69,12 @@
             <option value="R">Relative</option>
         </select>
 
+        <label>Discord Preview:</label>
+        <input id="preview" type="text" readonly />
+
         <label>Discord Timestamp:</label>
         <input id="discord" type="text" readonly />
 
-        <label>Discord Preview:</label>
-        <input id="preview" type="text" readonly />
+        <div id="toast">Copied to clipboard</div>
     </body>
 </html>
