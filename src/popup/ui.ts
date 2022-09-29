@@ -1,12 +1,11 @@
 import { browser } from "webextension-polyfill-ts";
-import { BackgroundMessages } from '../messages';
-import { Messenger } from '../messenger';
 
 //import * as chrono from 'chrono-node';
 import { customParser, timeZones } from '../customParser';
 import { DateTime } from 'luxon';
 
 enum ControlGroups {
+    None,
     Plaintext,
     DateTimeZone,
     Unix,
@@ -102,14 +101,16 @@ class UI {
 
         this.tbDiscord.addEventListener('click', this.tbDiscord_click.bind(this));
         this.divToast.addEventListener('animationend', this.divToast_animationend.bind(this));
-
-        const response = await Messenger.sendMessageToBackground(BackgroundMessages.GET_PLAINTEXT);
-        this.tbPlaintext.value = response || DateTime.now().toISO();
         
         this.cbxDiscordFormat.value = (await browser.storage.sync.get('discordFormat')).discordFormat || "f";
 
-        if (!!this.tbPlaintext.value) {
+        let selection = await browser.tabs.executeScript({ code: 'window.getSelection().toString();' });
+        if (selection && selection[0]) {
+            this.tbPlaintext.value = selection[0];
             this.tbPlaintext_input(null);
+        } else {
+            this.dateValue = DateTime.now();
+            this.update(null);
         }
     }
 
@@ -131,7 +132,7 @@ class UI {
             return;
         }
 
-        const groupException = this.controlIdToGroup.get(except.id);
+        const groupException = !!except ? this.controlIdToGroup.get(except.id) : ControlGroups.None;
         const toUpdate = Object.keys(ControlGroups).filter(k => !isNaN(Number(ControlGroups[k])) && ControlGroups[k] !== groupException).map<ControlGroups>(s => ControlGroups[s]);
 
         for (let group of toUpdate) {
