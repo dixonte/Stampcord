@@ -6,7 +6,7 @@
   "scripts": {
     "start:firefox": "web-ext run --source-dir ./build/",
     "lint": "web-ext lint --source-dir ./build/",
-    "build": "web-ext build --source-dir ./build/ -o"
+    "pack": "web-ext build --source-dir ./build/ -o"
   },
   "author": "dixonte",
   "license": "MIT",
