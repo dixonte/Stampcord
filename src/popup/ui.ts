@@ -74,14 +74,14 @@ class UI {
                     break;
 
                 case 'R':
-                    this.tbPreview.value = this.dateValue.setZone('system').toRelative();
+                    this.tbPreview.value = this.dateValue.setZone('system').toRelative() || "";
                     return;
             }
             this.tbPreview.value = this.dateValue.setZone('system').toFormat(format);
         }]
     ]);
 
-    dateValue: DateTime;
+    dateValue: DateTime = DateTime.now();
 
     async init() {
         //console.log('zones!', timeZones);
@@ -107,7 +107,7 @@ class UI {
         let selection = await browser.tabs.executeScript({ code: 'window.getSelection().toString();' });
         if (selection && selection[0]) {
             this.tbPlaintext.value = selection[0];
-            this.tbPlaintext_input(null);
+            this.tbPlaintext_input();
         } else {
             this.dateValue = DateTime.now();
             this.update(null);
@@ -124,7 +124,7 @@ class UI {
         }
     }
 
-    update(except: HTMLInputElement) {
+    update(except: HTMLInputElement | null) {
         // console.log('Update:', this.dateValue);
         // console.log('TZ', this.dateValue.zoneName, this.dateValue.zone);
 
@@ -133,7 +133,7 @@ class UI {
         }
 
         const groupException = !!except ? this.controlIdToGroup.get(except.id) : ControlGroups.None;
-        const toUpdate = Object.keys(ControlGroups).filter(k => !isNaN(Number(ControlGroups[k])) && ControlGroups[k] !== groupException).map<ControlGroups>(s => ControlGroups[s]);
+        const toUpdate = Object.values(ControlGroups).filter(v => typeof v === 'number' && v !== groupException).map<ControlGroups>(v => <ControlGroups>v)
 
         for (let group of toUpdate) {
             let updateFunc = this.controlGroupUpdate.get(group);
@@ -143,7 +143,7 @@ class UI {
         }
     }
 
-    tbPlaintext_input(ev: Event) {
+    tbPlaintext_input() {
         //console.log('tbPlaintext_input', this.tbPlaintext.value);
 
         const c = customParser.parse(this.tbPlaintext.value)[0];

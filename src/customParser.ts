@@ -18,7 +18,7 @@ customParser.refiners.push({
 
         const resultsWithTimezone = results.filter(r => r.start.isCertain('timezoneOffset'));
         if (resultsWithTimezone[0] && results[0] && !results[0].start.isCertain('timezoneOffset')) {
-            results[0].start.assign('timezoneOffset', resultsWithTimezone[0].start.get('timezoneOffset'))
+            results[0].start.assign('timezoneOffset', resultsWithTimezone[0].start.get('timezoneOffset') || 0)
         }
 
         return results;
