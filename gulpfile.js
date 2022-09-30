@@ -37,6 +37,10 @@ const config = {
 }
 
 function js(watch, noSourceMaps = false) {
+    if (noSourceMaps) {
+        gutil.log('Building without source maps');
+    }
+
     return merge(config.modules.map((module => {
         let bundler = browserify({
             basedir: '.',
