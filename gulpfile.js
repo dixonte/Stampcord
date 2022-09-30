@@ -153,7 +153,7 @@ gulp.task('run', function (cb) {
 
 gulp.task('clean', function () {
     return gulp
-        .src(config.buildDir, {read:false})
+        .src(config.buildDir, { read: false, allowEmpty: true })
         .pipe(clean());
 });
 gulp.task('release', gulp.series('clean', gulp.parallel('js:release', 'json', 'img', 'html', 'style'), function () { return run('npm run pack').exec() }));
