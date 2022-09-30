@@ -104,7 +104,11 @@ class UI {
         
         this.cbxDiscordFormat.value = (await browser.storage.sync.get('discordFormat')).discordFormat || "f";
 
-        let selection = await browser.tabs.executeScript({ code: 'window.getSelection().toString();' });
+        let selection = [];
+        try {
+            selection = await browser.tabs.executeScript({ code: 'window.getSelection().toString();' });
+        } catch {}
+
         if (selection && selection[0]) {
             this.tbPlaintext.value = selection[0];
             this.tbPlaintext_input();
