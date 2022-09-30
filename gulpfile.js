@@ -15,7 +15,9 @@ const
     tsify = require('tsify'),
     sourcemaps = require('gulp-sourcemaps'),
     jsonMinify = require('gulp-json-minify'),
-    htmlmin = require('gulp-htmlmin')
+    htmlmin = require('gulp-htmlmin'),
+    sass = require('gulp-sass')(require('sass')),
+    cleanCSS = require('gulp-clean-css')
 ;
 
 const config = {
@@ -29,6 +31,7 @@ const config = {
     jsonGlob: 'src/**/*.json',
     imageGlob: 'src/icons/**/*',
     htmlGlob: 'src/popup/**/*.html',
+    sassGlob: 'src/**/*.sass',
 
     buildDir: './build'
 }
@@ -120,6 +123,18 @@ gulp.task('html:watch', function () {
 });
 
 
+gulp.task('style', function () {
+    return gulp
+        .src(config.sassGlob, { base: config.srcBase })
+        .pipe(sass().on('error', sass.logError))
+        .pipe(cleanCSS({compatibility: '*'}))
+        .pipe(gulp.dest(config.buildDir));
+});
+gulp.task('style:watch', function () {
+    return watches.push(gulp.watch(config.sassGlob, gulp.parallel('style')));
+});
+
+
 gulp.task('run', function (cb) {
     run('npm run start:firefox -- --bc -u file:///' + path.resolve('./test/dates.html')).exec(function () {
         for (let watch of watches) {
@@ -138,5 +153,5 @@ gulp.task('clean', function () {
         .src(config.buildDir, {read:false})
         .pipe(clean());
 });
-gulp.task('watch', gulp.parallel('js:watch', 'json:watch', 'img:watch', 'html:watch', 'run'));
-gulp.task('default', gulp.parallel('js', 'json', 'img', 'html'));
+gulp.task('watch', gulp.parallel('js:watch', 'json:watch', 'img:watch', 'html:watch', 'style:watch', 'run'));
+gulp.task('default', gulp.parallel('js', 'json', 'img', 'html', 'style'));

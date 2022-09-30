@@ -3,45 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <title>Stampcord UI</title>
-        <style type="text/css">
-            body {
-                padding: 0.5em;
-            }
-
-            input, select {
-                width: 20em;
-            }
-
-            label {
-                margin-top: 0.75em;
-            }
-
-            label:first-child {
-                margin-top: 0;
-            }
-
-            #toast {
-                background-color: lemonchiffon;
-                border-radius: 0.5em 0.5em 0 0;
-                
-                padding: 0.25em 1em;
-
-                position: fixed;
-                bottom: 0;
-                left: 50%;
-                transform: translateX(-50%);
-
-                pointer-events: none;
-                opacity: 0;
-            }
-
-            @keyframes toast {
-                0% { opacity: 0; }
-                1% { opacity: 1 }
-                80% { opacity: 1 }
-                100% { opacity: 0 }
-            }
-        </style>
+        <link rel="stylesheet" href="ui.css" />
         <script src="ui.js" type="text/javascript"></script>
     </head>
 
@@ -76,7 +38,7 @@
         <input id="discord" type="text" readonly />
 
         <div style="margin-top: .75em">
-            Find this useful? <a href="https://dixonte.github.io/donate.html">Donations</a> are welcome.
+            Find this useful? <a href="https://dixonte.github.io/donate.html" target="_blank" rel="noopener">Donations</a> are welcome.
         </div>
 
         <div id="toast">Copied to clipboard</div>

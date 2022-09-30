@@ -1,0 +1,35 @@
+body 
+    padding: 0.5em
+
+input, select 
+    width: 20em
+
+label 
+    margin-top: 0.75em
+
+label:first-child 
+    margin-top: 0
+
+#toast 
+    background-color: lemonchiffon
+    border-radius: 0.5em 0.5em 0 0
+    
+    padding: 0.25em 1em
+
+    position: fixed
+    bottom: 0
+    left: 50%
+    transform: translateX(-50%)
+
+    pointer-events: none
+    opacity: 0
+
+@keyframes toast 
+    0%
+        opacity: 0
+    1%
+        opacity: 1
+    80%
+        opacity: 1
+    100%
+        opacity: 0
