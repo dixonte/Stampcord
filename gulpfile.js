@@ -29,14 +29,14 @@ const config = {
     ],
 
     jsonGlob: 'src/**/*.json',
-    imageGlob: 'src/icons/**/*',
+    imageGlob: 'src/icons/**/*.png',
     htmlGlob: 'src/popup/**/*.html',
     sassGlob: 'src/**/*.sass',
 
     buildDir: './build'
 }
 
-function js(watch) {
+function js(watch, noSourceMaps = false) {
     return merge(config.modules.map((module => {
         let bundler = browserify({
             basedir: '.',
@@ -66,18 +66,18 @@ function js(watch) {
             gutil.log(msg);
         });
     
-        return bundle(bundler, module);
+        return bundle(bundler, module, noSourceMaps);
     })));
 }
 
-function bundle(bundler, module) {
+function bundle(bundler, module, noSourceMaps = false) {
     return bundler
         .bundle()
         .pipe(source(module.bundle))
         .pipe(buffer())
-        .pipe(sourcemaps.init({ loadMaps: true }))
+        .pipe(noSourceMaps ? gutil.noop() : sourcemaps.init({ loadMaps: true }))
         .pipe(uglify())
-        .pipe(sourcemaps.write('./'))
+        .pipe(noSourceMaps ? gutil.noop() : sourcemaps.write('./'))
         .pipe(gulp.dest(config.buildDir));
 }
 
@@ -98,6 +98,7 @@ gulp.task('img:watch', function () {
 
 gulp.task('js', function () { return js(false) });
 gulp.task('js:watch', function () { return js(true) });
+gulp.task('js:release', function () { return js(false, true) });
 
 
 gulp.task('json', function() {
@@ -146,12 +147,13 @@ gulp.task('run', function (cb) {
 });
 
 
-gulp.task('pack', function () { return run('npm run pack').exec() });
-gulp.task('lint', function () { return run('npm run lint').exec() });
 gulp.task('clean', function () {
     return gulp
         .src(config.buildDir, {read:false})
         .pipe(clean());
 });
+gulp.task('release', gulp.series('clean', gulp.parallel('js:release', 'json', 'img', 'html', 'style')));
+gulp.task('pack', gulp.series('release', function () { return run('npm run pack').exec() }));
+gulp.task('lint', function () { return run('npm run lint').exec() });
 gulp.task('watch', gulp.parallel('js:watch', 'json:watch', 'img:watch', 'html:watch', 'style:watch', 'run'));
 gulp.task('default', gulp.parallel('js', 'json', 'img', 'html', 'style'));
