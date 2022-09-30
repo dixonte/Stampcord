@@ -156,8 +156,7 @@ gulp.task('clean', function () {
         .src(config.buildDir, {read:false})
         .pipe(clean());
 });
-gulp.task('release', gulp.series('clean', gulp.parallel('js:release', 'json', 'img', 'html', 'style')));
-gulp.task('pack', gulp.series('release', function () { return run('npm run pack').exec() }));
+gulp.task('release', gulp.series('clean', gulp.parallel('js:release', 'json', 'img', 'html', 'style'), function () { return run('npm run pack').exec() }));
 gulp.task('lint', function () { return run('npm run lint').exec() });
 gulp.task('watch', gulp.parallel('js:watch', 'json:watch', 'img:watch', 'html:watch', 'style:watch', 'run'));
 gulp.task('default', gulp.parallel('js', 'json', 'img', 'html', 'style'));

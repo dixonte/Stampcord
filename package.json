@@ -6,7 +6,9 @@
   "scripts": {
     "start:firefox": "web-ext run --source-dir ./build/",
     "lint": "web-ext lint --source-dir ./build/",
-    "pack": "web-ext build --source-dir ./build/ -o"
+    "pack": "web-ext build --source-dir ./build/ -o",
+    "build": "gulp",
+    "release": "gulp release"
   },
   "author": "dixonte",
   "license": "MIT",
