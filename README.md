@@ -8,6 +8,23 @@ However, when you type or paste one into Discord, what everyone actually sees is
 
 In my case, I made this tool so that I could take times for events announced in online games and easily convert them to Discord timestamps for pasting into my community server.
 
+## Getting Stampcord
+At this time, Stampcord is available for the following browsers:
+
+* [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/stampcord/)
+
+I've also tried it in the following browsers but not submitted it to their stores:
+
+* Microsoft Edge
+
+I haven't tried it in the following browsers, but expect it would probably work:
+
+* Google Chrome
+
+There doesn't seem to be a way to trigger a popup from a context menu in Edge or Chrome, so that feature is missing. You can still select text in the page and then open the popup from the action button, though.
+
+In order to use Stampcord in these other browsers, you'll need to sideload them.
+
 ## Building
 You'll need [node.js](https://nodejs.org/en/download/current/), then it should be as simple as
 
