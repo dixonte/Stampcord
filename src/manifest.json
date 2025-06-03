@@ -22,9 +22,22 @@
     ],
 
     "browser_action": {
-      "default_title": "__MSG_extensionName__",
-      "default_popup": "popup/ui.html",
-      "browser_style": true
+        "default_title": "__MSG_extensionName__",
+        "default_popup": "popup/ui.html",
+        "browser_style": true
+    },
+
+    "sidebar_action": {
+        "default_title": "__MSG_extensionName__",
+        "default_panel": "popup/ui.html",
+        "open_at_install": false,
+        "default_icon": {
+            "16": "icons/clock16.png",
+            "24": "icons/clock24.png",
+            "32": "icons/clock32.png",
+            "48": "icons/clock48.png",
+            "128": "icons/clock128.png"
+        }
     },
 
     "background": {
@@ -35,5 +48,13 @@
         "gecko": {
           "id": "stampcord@dixonte.github.io"
         }
-    }      
+    },
+    
+    "commands": {
+        "_execute_sidebar_action": {
+            "suggested_key": {
+                "default": "Ctrl+Alt+S"
+            }
+        }
+    }
 }

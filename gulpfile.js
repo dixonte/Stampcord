@@ -2,7 +2,7 @@
 
 const
     gulp = require('gulp'),
-    gutil = require('gulp-util'),
+    log = require('fancy-log'),
     clean = require('gulp-clean'),
     merge = require('merge-stream'),
     path = require('path'),
@@ -38,7 +38,7 @@ const config = {
 
 function js(watch, noSourceMaps = false) {
     if (noSourceMaps) {
-        gutil.log('Building without source maps');
+        log('Building without source maps');
     }
 
     return merge(config.modules.map((module => {
@@ -55,7 +55,7 @@ function js(watch, noSourceMaps = false) {
         if (watch) {
             bundler.plugin(watchify, {
                 delay: 100,
-                ignoreWatch: ['**/note_mdoules/**'],
+                ignoreWatch: ['**/note_modules/**'],
                 poll: 250
             });
     
@@ -67,7 +67,7 @@ function js(watch, noSourceMaps = false) {
         });
     
         bundler.on('log', function(msg) {
-            gutil.log(msg);
+            log(msg);
         });
     
         return bundle(bundler, module, noSourceMaps);
@@ -91,9 +91,9 @@ let watches = [];
 
 gulp.task('img', function () {
     return gulp
-        .src(config.imageGlob, { base: config.srcBase })
+        .src(config.imageGlob, { base: config.srcBase, encoding: false }) // Lazy workaround, should do copy differently
         .pipe(gulp.dest(config.buildDir))
-        .on('error', gutil.log);   
+        .on('error', log);
 });
 gulp.task('img:watch', function () {
     return watches.push(gulp.watch([config.imageGlob], gulp.parallel('img')));
@@ -110,7 +110,7 @@ gulp.task('json', function() {
         .src(config.jsonGlob, { base: config.srcBase })
         .pipe(jsonMinify())
         .pipe(gulp.dest(config.buildDir))
-        .on('error', gutil.log);
+        .on('error', log);
 });
 gulp.task('json:watch', function () {
     return watches.push(gulp.watch([config.jsonGlob], gulp.parallel('json')));
@@ -141,7 +141,7 @@ gulp.task('style:watch', function () {
 
 
 gulp.task('run', function (cb) {
-    run('npm run start:firefox -- --bc -u file:///' + path.resolve('./test/dates.html')).exec(function () {
+    run('pnpm start:firefox --bc -u file:///' + path.resolve('./test/dates.html')).exec(function () {
         for (let watch of watches) {
             watch.close();
         }

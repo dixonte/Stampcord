@@ -13,29 +13,29 @@
   "author": "dixonte",
   "license": "MIT",
   "devDependencies": {
-    "@types/luxon": "^3.0.1",
-    "browserify": "^17.0.0",
+    "@types/luxon": "^3.6.2",
+    "@types/webextension-polyfill": "^0.12.3",
+    "browserify": "^17.0.1",
+    "fancy-log": "^2.0.0",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-htmlmin": "^5.0.1",
-    "gulp-json-minify": "^1.2.2",
+    "gulp-json-minify": "^1.2.3",
     "gulp-run": "^1.7.1",
-    "gulp-sass": "^5.1.0",
+    "gulp-sass": "^6.0.1",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
-    "gulp-util": "^3.0.8",
-    "luxon": "^3.0.4",
+    "luxon": "^3.6.1",
     "merge-stream": "^2.0.0",
-    "sass": "^1.55.0",
+    "sass": "^1.89.1",
     "tsify": "^5.0.4",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
     "watchify": "^4.0.0",
-    "web-ext": "^7.2.0",
-    "webextension-polyfill-ts": "^0.26.0"
+    "web-ext": "^8.7.1"
   },
   "dependencies": {
-    "chrono-node": "^2.4.1"
+    "chrono-node": "^2.8.2"
   }
 }

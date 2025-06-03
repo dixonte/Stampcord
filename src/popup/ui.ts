@@ -1,4 +1,4 @@
-import { browser } from "webextension-polyfill-ts";
+import { storage, tabs } from "webextension-polyfill";
 
 //import * as chrono from 'chrono-node';
 import { customParser, timeZones } from '../customParser';
@@ -38,7 +38,7 @@ class UI {
             this.tbPlaintext.value = `${this.dateValue.toLocaleString(DateTime.DATETIME_MED)} ${this.getUTCRelativeString(this.dateValue.offset)}`;
         }],
         [ControlGroups.DateTimeZone, () => {
-            this.dtDateTime.value = this.dateValue.setZone('system', { keepLocalTime: true }).toISO({ includeOffset: false });
+            this.dtDateTime.value = this.dateValue.setZone('system', { keepLocalTime: true }).toISO({ includeOffset: false }) || '';
             this.cbxTimeZone.value = this.dateValue.offset.toString();
         }],
         [ControlGroups.Unix, () => {
@@ -101,13 +101,13 @@ class UI {
 
         this.tbDiscord.addEventListener('click', this.tbDiscord_click.bind(this));
         this.divToast.addEventListener('animationend', this.divToast_animationend.bind(this));
-        
-        this.cbxDiscordFormat.value = (await browser.storage.sync.get('discordFormat')).discordFormat || "f";
 
-        let selection = [];
+        this.cbxDiscordFormat.value = (await storage.sync.get('discordFormat')).discordFormat as string || "f";
+
+        let selection: any[] = [];
         try {
-            selection = await browser.tabs.executeScript({ code: 'window.getSelection().toString();' });
-        } catch {}
+            selection = await tabs.executeScript({ code: 'window.getSelection().toString();' });
+        } catch (e) { }
 
         if (selection && selection[0]) {
             this.tbPlaintext.value = selection[0];
@@ -190,7 +190,7 @@ class UI {
     }
 
     async cbxDiscordFormat_change(ev: Event) {
-        await browser.storage.sync.set({ discordFormat: this.cbxDiscordFormat.value });
+        await storage.sync.set({ discordFormat: this.cbxDiscordFormat.value });
 
         this.update(this.cbxDiscordFormat);
     }

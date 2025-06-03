@@ -1,4 +1,4 @@
-import { browser } from "webextension-polyfill-ts";
+import { runtime, contextMenus, i18n } from "webextension-polyfill";
 
 class Background {
     selectedText?: string | null;
@@ -9,15 +9,15 @@ class Background {
         We'll just log success/failure here.
         */
         function onCreated() {
-            if (browser.runtime.lastError) {
-                console.log(`Error: ${browser.runtime.lastError}`);
+            if (runtime.lastError) {
+                console.log(`Error: ${runtime.lastError}`);
             }
         }
           
-        browser.contextMenus.create({
+        contextMenus.create({
             id: "miSelectionParse",
             type: 'normal',
-            title: browser.i18n.getMessage("miSelectionParse"),
+            title: i18n.getMessage("miSelectionParse"),
             contexts: ["selection"],
             command: '_execute_browser_action'
         }, onCreated);
