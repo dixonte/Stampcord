@@ -29,9 +29,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run release
-    - run: npm run lint
+    - name: Use pnpm
+      uses: pnpm/action-setup@v4
+    - run: pnpm run release
+    - run: pnpm run lint
     
     - name: Release
       uses: softprops/action-gh-release@v1

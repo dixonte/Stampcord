@@ -2,6 +2,7 @@
 
 const
     gulp = require('gulp'),
+    noop = require('gulp-noop'),
     log = require('fancy-log'),
     clean = require('gulp-clean'),
     merge = require('merge-stream'),
@@ -79,9 +80,9 @@ function bundle(bundler, module, noSourceMaps = false) {
         .bundle()
         .pipe(source(module.bundle))
         .pipe(buffer())
-        .pipe(noSourceMaps ? gutil.noop() : sourcemaps.init({ loadMaps: true }))
+        .pipe(noSourceMaps ? noop() : sourcemaps.init({ loadMaps: true }))
         .pipe(uglify())
-        .pipe(noSourceMaps ? gutil.noop() : sourcemaps.write('./'))
+        .pipe(noSourceMaps ? noop() : sourcemaps.write('./'))
         .pipe(gulp.dest(config.buildDir));
 }
 
@@ -156,7 +157,7 @@ gulp.task('clean', function () {
         .src(config.buildDir, { read: false, allowEmpty: true })
         .pipe(clean());
 });
-gulp.task('release', gulp.series('clean', gulp.parallel('js:release', 'json', 'img', 'html', 'style'), function () { return run('npm run pack').exec() }));
-gulp.task('lint', function () { return run('npm run lint').exec() });
+gulp.task('release', gulp.series('clean', gulp.parallel('js:release', 'json', 'img', 'html', 'style'), function () { return run('pnpm run pack').exec() }));
+gulp.task('lint', function () { return run('pnpm run lint').exec() });
 gulp.task('watch', gulp.parallel('js:watch', 'json:watch', 'img:watch', 'html:watch', 'style:watch', 'run'));
 gulp.task('default', gulp.parallel('js', 'json', 'img', 'html', 'style'));
